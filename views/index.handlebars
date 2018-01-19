@@ -1,74 +1,45 @@
-<h1>Burger App</h1>
+<div class="row">
+  <center>
+    <!-- Left side (ready to eat) -->
+    <div class="col-md-6">
+      <h4 class="red_font">Eat Me!</h4>
+      <div id="ready_to_eat">
 
-<h2>Ice Ice Burger</h2>
+        <!-- Dynamically Insert Ready Burgers Here -->
+        {{#each burgers}}
+          {{#unless devoured}}
+          <form action="burger/eat/{{id}}" method="POST">
+            <div class="input-group">
+              <li class="form-control">{{id}}. {{burger_name}}</li>
+                <span class="input-group-btn">
+                  <button class="btn btn-success devour-button" type="submit">Devour It!</button>
+                </span>
+            </div>
+          </form>
+          {{/unless}}
+        {{/each}}
 
-<div class="container">
-
-    <div class="row">
-        <img id="burger-header-img" class="img-responsive center-block" src="icon.png"/>
-        <h1 class="text-center"> Burger!</h1>
+      </div>
     </div>
 
-    <div class="row text-center">
-        <form method="POST" action="/burgers/create" class="form-inline">
-            <div class="form-group">
-                <input type="hidden" name="devoured" value="0"/>
-                <label class="sr-only" for="burger-input">Delicious burger</label>
-                <input name="burger" type="text" class="form-control" id="burger-input" placeholder="Your order"/>
+    <!-- DEVOURED SECTION -->
+    <div class="col-md-6">
+      <h4 class="red_font">Devoured</h4>
+      <div id="already_eaten">
+
+        <!-- CREATE BURGER -->
+        {{#each burgers}}
+          {{#if this.devoured}}
+            <div class="input-group">
+              <li class="form-control">{{this.id}}. {{this.burger_name}}</li>
+              <span class="input-group-btn">
+                <button class="btn btn-info whine-button" type="button"></button>
+              </span>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+          {{/if}}
+        {{/each}}
+
+      </div>
     </div>
-    <br>
-
-    <div class="row text-center">
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Your Burgers</div>
-                <div id="burgers-added" class="panel-body">
-
-                    <hr>
-
-                    {{#each burgers}}
-                        {{#unless devoured}}
-                            <form method="POST" action="/burgers/update/{{id}}?_method=PUT" class="form-inline">
-                                <div class="form-group">
-                                    <input type="hidden" name="devoured" value="1"/>
-                                    <label class="sr-only">Delicious burger</label>
-                                    <p class="form-control-static">{{ burger_name }}</p>
-                                </div>
-                                <button id="burger-id{{id}}" type="submit" class="btn btn-default">Devour!</button>
-                                <hr>
-                            </form>
-                        {{/unless}}
-                    {{/each}}
-
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Devoured Burgers</div>
-                <div id="burgers-devoured" class="panel-body">
-
-                    <hr>
-
-                    {{#each burgers}}
-                        {{#if devoured}}
-                            <form method="POST" action="/burgers/delete/{{id}}?_method=DELETE" class="form-inline">
-                                <div class="form-group">
-                                    <label class="sr-only">Devoured burgers</label>
-                                    <p class="form-control-static">{{ burger_name }}</p>
-                                </div>
-                                <button id="burger-id{{id}}" type="submit" class="btn btn-default">Trash</button>
-                                <hr>
-                            </form>
-                        {{/if}}
-                    {{/each}}
-
-                </div>
-            </div>
-        </div>
-    </div>
-
+  </center>
 </div>
